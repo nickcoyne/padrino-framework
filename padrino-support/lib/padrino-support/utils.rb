@@ -1,4 +1,5 @@
 require 'cgi'
+require 'padrino-support/utils/link_escaper'
 
 module Padrino
   module Utils
@@ -30,6 +31,20 @@ module Padrino
         fail ArgumentError, 'namespace is missing' unless namespace
         "#{CGI.escape(namespace.to_s)}=#{CGI.escape(object.to_s)}"
       end
+    end
+
+    ##
+    # Escapes a document link using available LinkEscaper.
+    #
+    # Examples:
+    #
+    #   Utils.escape_link('/relative link')
+    #     #=> '/relative%20link'
+    #   Utils.escape_link('http://example.com/link?query#fancy fragment')
+    #     #=> 'http://example.com/link?query#fancy%20fragment'
+    #
+    def escape_link(link)
+      LinkEscaper.engine.escape(link)
     end
   end
 end
